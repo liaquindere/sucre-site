@@ -1,0 +1,190 @@
+/* =========================================================
+   SUCRÉ — folha de estilo (estilo divertido, blocos de cor)
+   1) TOKENS  2) BASE  3) COMPONENTES  4) SEÇÕES  5) RESPONSIVO
+   Paleta: rosa (predominante) + amarelo gema + menta (apoio)
+   ========================================================= */
+
+/* 1) TOKENS ------------------------------------------------ */
+:root {
+  --rosa:#FA2458; --rosa-escuro:#C81848; --coral:#FC4A4E; --rosa-claro:#FF979C;
+  --gema:#FED278; --menta:#9FD9C6; --menta-clara:#C4FEDA;
+  --rosa-deep:#A8143F; --berry:#4E0E22;
+  --cream:#FFF6F3; --areia:#FFEEEA; --ink:#3A1E28; --muted:#8A6E75; --white:#fff;
+
+  --font-head:'Fredoka', system-ui, sans-serif;   /* títulos arredondados */
+  --font-body:'Nunito', system-ui, sans-serif;     /* corpo arredondado */
+
+  --maxw:1140px;
+  --radius:28px; --radius-lg:40px; --blob:46% 54% 58% 42% / 52% 44% 56% 48%;
+  --shadow:0 22px 50px rgba(200,24,72,.16); --shadow-sm:0 10px 24px rgba(200,24,72,.12);
+}
+
+/* 2) BASE -------------------------------------------------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-body);color:var(--ink);background:var(--cream);line-height:1.6;font-weight:400;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-head);line-height:1.05;margin:0 0 .5em;font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(2.6rem,6.5vw,4.6rem)}
+h2{font-size:clamp(2rem,4.5vw,3.1rem)}
+h3{font-size:1.35rem}
+p{margin:0 0 1rem}
+a{color:var(--rosa-escuro);text-decoration:none}
+strong{font-weight:800}
+img{max-width:100%;display:block}
+.container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 1.5rem}
+.eyebrow{font-family:var(--font-body);font-size:.82rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rosa);margin:0 0 .8rem}
+.eyebrow--light{color:var(--gema)}
+.skip-link{position:absolute;left:-999px;background:var(--ink);color:#fff;padding:.6rem 1rem;border-radius:8px;z-index:100}
+.skip-link:focus{left:1rem;top:1rem}
+:focus-visible{outline:3px solid var(--rosa);outline-offset:3px;border-radius:6px}
+
+/* 3) COMPONENTES ------------------------------------------ */
+.btn{display:inline-block;font-family:var(--font-body);font-weight:800;font-size:1.02rem;padding:.95rem 1.9rem;border-radius:999px;transition:transform .15s ease, box-shadow .15s ease;cursor:pointer;border:3px solid transparent}
+.btn--primary{background:var(--rosa);color:#fff;box-shadow:0 6px 0 var(--rosa-escuro)}
+.btn--primary:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--rosa-escuro)}
+.btn--primary:active{transform:translateY(3px);box-shadow:0 3px 0 var(--rosa-escuro)}
+.btn--ghost{background:#fff;color:var(--rosa-escuro);border-color:var(--rosa)}
+.btn--ghost:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.btn--dark{background:var(--ink);color:#fff}
+.btn--dark:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.link-arrow{display:inline-block;font-weight:800;margin-top:.5rem;color:var(--rosa-escuro)}
+.link-arrow:hover{color:var(--coral)}
+.section-head{max-width:680px;margin:0 0 2.5rem}
+.section-head--center{margin:0 auto 2.5rem;text-align:center}
+.media-note{font-family:var(--font-body);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.9)}
+[role="img"]{background:linear-gradient(135deg,var(--rosa),var(--rosa-claro));display:flex;align-items:center;justify-content:center;border-radius:var(--radius)}
+img.hero__media,img.card__media,img.story__media,img.founder__media{object-fit:cover;width:100%;display:block}
+img.story__media{object-position:50% 26%}
+
+/* 4) SEÇÕES ------------------------------------------------ */
+/* Header + logo */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(255,246,243,.94);backdrop-filter:blur(8px)}
+.header__inner{display:flex;align-items:center;justify-content:space-between;height:86px}
+.brand{display:flex;align-items:center}
+.brand-logo{height:56px;width:auto}
+.brand--footer{font-family:var(--font-head);font-size:1.7rem;font-weight:700;color:#fff}
+.nav__list{list-style:none;display:flex;align-items:center;gap:1.7rem;margin:0;padding:0}
+.nav__list a{color:var(--ink);font-weight:700;font-size:1rem}
+.nav__list a:hover{color:var(--rosa)}
+.nav__cta{background:var(--rosa);color:#fff!important;padding:.6rem 1.2rem;border-radius:999px;box-shadow:0 4px 0 var(--rosa-escuro)}
+.nav__cta:hover{transform:translateY(-1px)}
+.nav__toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;padding:8px;cursor:pointer}
+.nav__toggle span{width:28px;height:3px;background:var(--ink);border-radius:3px}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding:clamp(3rem,7vw,6rem) 0}
+.hero__inner{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+.hero__sub{font-size:1.2rem;font-weight:600;color:var(--muted);max-width:36ch;margin-bottom:1.8rem}
+.hero__actions{display:flex;gap:1rem;flex-wrap:wrap}
+.hero h1 .hl{background:linear-gradient(transparent 58%, var(--gema) 58%);padding:0 .1em}
+.hero__media{aspect-ratio:4/5;box-shadow:var(--shadow);background:linear-gradient(140deg,var(--rosa),var(--gema));border-radius:var(--blob)}
+.deco{position:absolute;border-radius:50%;z-index:0;opacity:.55}
+.deco--1{width:220px;height:220px;background:var(--gema);top:-60px;right:8%}
+.deco--2{width:150px;height:150px;background:var(--menta);bottom:-40px;left:-30px}
+
+/* Valores — bloco amarelo */
+.values{background:var(--gema);border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:clamp(2.5rem,5vw,4rem) 0;text-align:center}
+.values__title{color:var(--berry);margin-bottom:1.5rem}
+.pills{list-style:none;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:0;padding:0}
+.pill{background:#fff;color:var(--rosa-escuro);font-weight:800;padding:.7rem 1.4rem;border-radius:999px;box-shadow:0 4px 0 rgba(200,24,72,.18)}
+
+/* Story */
+.story{padding:clamp(3.5rem,7vw,6rem) 0}
+.story__inner{display:grid;grid-template-columns:.95fr 1.05fr;gap:3rem;align-items:center}
+.story__media{aspect-ratio:1/1;box-shadow:var(--shadow);background:linear-gradient(135deg,var(--menta),var(--menta-clara));border-radius:58% 42% 46% 54% / 46% 54% 46% 54%}
+.story__media .media-note{color:rgba(58,30,40,.55)}
+
+/* Linha do tempo */
+.timeline{list-style:none;margin:3rem 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.tl{background:#fff;border-radius:var(--radius);padding:1.6rem 1.5rem;box-shadow:var(--shadow-sm);transition:transform .18s ease}
+.tl:hover{transform:translateY(-4px) rotate(.6deg)}
+.tl__year{display:inline-block;font-family:var(--font-head);font-weight:700;font-size:1.15rem;color:#fff;background:var(--rosa);padding:.25rem 1rem;border-radius:999px;margin-bottom:.8rem}
+.tl p{margin:0;color:var(--muted);font-weight:600;font-size:.97rem}
+.tl strong{color:var(--ink)}
+.tl--hoje{background:var(--gema)}
+.tl--hoje .tl__year{background:var(--berry)}
+.tl--hoje p{color:var(--berry)}
+.tl--hoje strong{color:var(--berry)}
+
+/* Produtos */
+.products{padding:clamp(3.5rem,7vw,6rem) 0;background:var(--areia)}
+.products__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .18s ease, box-shadow .18s ease}
+.card:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:var(--shadow)}
+.card__media{aspect-ratio:4/3;border-radius:0;background:linear-gradient(150deg,var(--rosa),var(--coral))}
+.card:nth-child(2) .card__media{background:linear-gradient(150deg,var(--coral),var(--gema))}
+.card:nth-child(3) .card__media{background:linear-gradient(150deg,var(--rosa),var(--rosa-claro))}
+.card:nth-child(4) .card__media{background:linear-gradient(150deg,var(--menta),var(--menta-clara))}
+.card__body{padding:1.2rem 1.4rem 1.6rem}
+.card__body h3{margin:0 0 .4rem}
+.card__body p{color:var(--muted);font-weight:600;font-size:.95rem;margin:0}
+
+/* Mapa de presença (seção contato) */
+.contact__mapa{display:block;width:min(540px,88%);margin:1.8rem auto 2rem;filter:drop-shadow(0 10px 24px rgba(78,14,34,.14))}
+
+/* Mascotinhos do brandbook */
+.mascote{display:block;width:auto}
+.section-head .mascote{height:72px;margin:0 auto .8rem}
+.contact .mascote{height:72px;margin:0 auto 1rem}
+.mascotes{display:flex;justify-content:center;align-items:flex-end;gap:clamp(1.2rem,4vw,2.6rem);margin:2.4rem 0 .4rem;flex-wrap:wrap}
+.mascotes img{height:clamp(54px,7vw,82px);width:auto;animation:bob 2.8s ease-in-out infinite}
+.mascotes img:nth-child(2){animation-delay:.35s}
+.mascotes img:nth-child(3){animation-delay:.7s}
+.mascotes img:nth-child(4){animation-delay:1.05s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media (prefers-reduced-motion:reduce){.mascotes img{animation:none}}
+
+/* Nosso propósito, bloco rosa */
+.cause{background:var(--rosa);color:#fff;border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:clamp(3.5rem,8vw,6rem) 0}
+.cause__inner{max-width:760px}
+.cause h2{color:#fff}
+.cause p{color:rgba(255,255,255,.95);font-size:1.1rem;font-weight:600}
+.cause strong{color:var(--gema);font-weight:800}
+.stats{display:flex;gap:3rem;margin-top:2rem;flex-wrap:wrap}
+.stat__num{display:block;font-family:var(--font-head);font-weight:700;font-size:3rem;color:var(--gema);line-height:1}
+.stat__label{color:rgba(255,255,255,.9);font-weight:600;font-size:.95rem}
+.cause__selo{margin-top:2rem;display:inline-block;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.82rem;color:var(--rosa);background:var(--gema);padding:.6rem 1.2rem;border-radius:999px}
+
+/* Fundadora */
+.founder{padding:clamp(3.5rem,7vw,6rem) 0}
+.founder__inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem;align-items:center}
+.founder__media{aspect-ratio:3/4;box-shadow:var(--shadow);background:linear-gradient(135deg,var(--rosa-claro),var(--gema));border-radius:52% 48% 40% 60% / 55% 50% 50% 45%}
+.founder__media .media-note{color:rgba(255,255,255,.9)}
+.founder blockquote{font-family:var(--font-head);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--rosa);margin:0 0 1rem;line-height:1.2}
+
+/* Contato — bloco menta */
+.contact{background:var(--menta);border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:clamp(3.5rem,7vw,5.5rem) 0;text-align:center}
+.contact h2{color:var(--berry)}
+.contact__lead{color:#2f5f52;font-weight:700;max-width:48ch;margin:0 auto 1.5rem}
+.contact__actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* Rodapé */
+.site-footer{background:var(--berry);color:rgba(255,255,255,.85);padding:3rem 0 1.5rem}
+.footer__inner{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.15)}
+.footer__tag{color:rgba(255,255,255,.7);font-weight:600;max-width:32ch;margin:.5rem 0 0}
+.footer__links{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin:0;padding:0}
+.footer__links a,.footer__social a{color:rgba(255,255,255,.85);font-weight:600}
+.footer__links a:hover,.footer__social a:hover{color:var(--gema)}
+.footer__social{display:flex;flex-direction:column;gap:.6rem}
+.footer__legal{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:rgba(255,255,255,.5);font-size:.82rem;font-weight:600;padding-top:1.5rem}
+
+/* 5) RESPONSIVO ------------------------------------------- */
+@media (max-width:900px){
+  .hero__inner,.story__inner,.founder__inner{grid-template-columns:1fr}
+  .story__media{order:2}
+  .products__grid{grid-template-columns:repeat(2,1fr)}
+  .timeline{grid-template-columns:1fr}
+  .brand-logo{height:48px}
+  .nav__toggle{display:flex}
+  .nav__list{position:absolute;top:86px;right:0;left:0;background:var(--cream);flex-direction:column;align-items:flex-start;gap:0;padding:.5rem 1.5rem 1.5rem;box-shadow:var(--shadow-sm);display:none}
+  .nav__list.is-open{display:flex}
+  .nav__list li{width:100%}
+  .nav__list a{display:block;padding:.85rem 0;width:100%}
+  .nav__cta{display:inline-block;margin-top:.5rem}
+}
+@media (max-width:560px){
+  .products__grid{grid-template-columns:1fr}
+  .hero__actions,.contact__actions{flex-direction:column}
+  .btn{text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none!important}}
