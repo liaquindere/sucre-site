@@ -208,15 +208,16 @@ img.story__media{object-position:50% 26%}
 .card__body .link-arrow{margin-top:.6rem;font-size:.92rem}
 .anchor-alias{position:relative;top:-96px;display:block;height:0}
 
-/* Appetite appeal — "saiu do forno" (ativa quando as fotos chegarem) */
+/* Appetite appeal — "saiu do forno" (fotos do ensaio jan/26, retrato) */
 .appetite{padding:clamp(3rem,6vw,5rem) 0;background:#fff}
 .appetite__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
-.appetite__grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius);box-shadow:var(--shadow-sm)}
-@media (max-width:900px){.appetite__grid{grid-template-columns:1fr}}
+.appetite__grid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:transform .18s ease}
+.appetite__grid img:hover{transform:scale(1.02) rotate(-.5deg)}
+@media (max-width:900px){.appetite__grid{grid-template-columns:1fr}.appetite__grid img{aspect-ratio:4/3}}
 /* hover-swap dos cards: quando existir a foto do produto pronto */
-.card__media--pronto{display:none}
-.card:hover .card__media--pronto{display:block}
-.card:hover .card__media--pronto + .card__media{display:none}
+img.card__media--pronto{display:none}
+.card:hover img.card__media--pronto{display:block}
+.card:hover img.card__media--pronto + img.card__media{display:none}
 
 /* Páginas de produto */
 .phero{padding:clamp(2.5rem,6vw,4.5rem) 0;background:var(--areia)}
