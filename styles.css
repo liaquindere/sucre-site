@@ -211,7 +211,7 @@ img.story__media{object-position:50% 26%}
 /* Appetite appeal — "saiu do forno" (fotos do ensaio jan/26, retrato) */
 .appetite{padding:clamp(3rem,6vw,5rem) 0;background:#fff}
 .appetite__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
-.appetite__grid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:transform .18s ease}
+.appetite__grid img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:transform .18s ease}
 .appetite__grid img:hover{transform:scale(1.02) rotate(-.5deg)}
 @media (max-width:900px){.appetite__grid{grid-template-columns:1fr}.appetite__grid img{aspect-ratio:4/3}}
 /* hover-swap dos cards: quando existir a foto do produto pronto */
