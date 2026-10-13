@@ -1,0 +1,108 @@
+/* =========================================================
+   SUCRÉ — página "Onde encontrar" (localizador de pontos de venda)
+   Painel lateral + mapa (Leaflet). Paleta: rosa #FA2458 + gema #FED278
+   ========================================================= */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Faixa de título */
+.pdv__hero{background:var(--gema);padding:clamp(1.6rem,4vw,2.8rem) 0 clamp(1.4rem,3vw,2.2rem);position:relative;overflow:hidden}
+.pdv__hero-inner{display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.pdv__hero h1{color:var(--berry);font-size:clamp(2rem,4.6vw,3.2rem);margin-bottom:.4rem}
+.pdv__hero .eyebrow{color:var(--rosa);margin-bottom:.4rem}
+.pdv__lead{color:#5a3a1a;font-weight:600;max-width:60ch;margin:0;font-size:1.02rem}
+.pdv__resumo{display:block;margin-top:.4rem;color:var(--rosa-escuro);font-weight:800}
+.pdv__mascote{height:clamp(70px,9vw,110px);width:auto;flex:0 0 auto;animation:bob 2.8s ease-in-out infinite}
+
+/* Layout do localizador */
+.locator{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 86px);min-height:560px;background:#fff}
+.locator__panel{display:flex;flex-direction:column;border-right:1px solid #f4dde2;overflow:hidden;background:var(--cream)}
+.locator__map{position:relative}
+#mapa{position:absolute;inset:0;background:#eef2f5}
+
+/* Filtros */
+.filtros{padding:1.1rem 1.2rem .9rem;background:#fff;border-bottom:1px solid #f4dde2;display:flex;flex-direction:column;gap:.7rem}
+.filtros label{display:flex;flex-direction:column;gap:.25rem;font-weight:800;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);flex:1;min-width:0}
+.filtros select,.filtros input{font:inherit;font-family:var(--font-body);font-weight:700;font-size:.98rem;color:var(--ink);background:#fff;border:2px solid #f1d2d9;border-radius:14px;padding:.62rem .85rem;width:100%;transition:border-color .15s}
+.filtros select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FA2458' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .6rem center;background-size:20px;padding-right:2.2rem;cursor:pointer}
+.filtros select:disabled{opacity:.55;cursor:not-allowed}
+.filtros select:focus,.filtros input:focus{outline:none;border-color:var(--rosa);box-shadow:0 0 0 4px rgba(250,36,88,.14)}
+.filtros__linha{display:flex;gap:.7rem}
+.busca{position:relative;flex-direction:row!important;align-items:center}
+.busca svg{position:absolute;left:.85rem;color:var(--rosa);pointer-events:none}
+.busca input{padding-left:2.5rem;border-radius:999px}
+.busca input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.filtros__acoes{display:flex;gap:.6rem;align-items:center;justify-content:space-between;margin-top:.1rem}
+.btn-geo{display:inline-flex;align-items:center;gap:.45rem;font:inherit;font-weight:800;font-size:.95rem;color:#fff;background:var(--rosa);border:0;border-radius:999px;padding:.6rem 1.1rem;cursor:pointer;box-shadow:0 4px 0 var(--rosa-escuro);transition:transform .15s}
+.btn-geo:hover{transform:translateY(-1px)}
+.btn-geo:active{transform:translateY(2px);box-shadow:0 2px 0 var(--rosa-escuro)}
+.btn-geo.is-busy{opacity:.7;pointer-events:none}
+.btn-limpar{font:inherit;font-weight:800;font-size:.88rem;color:var(--rosa-escuro);background:none;border:0;cursor:pointer;padding:.4rem .2rem;text-decoration:underline;text-underline-offset:3px}
+.btn-limpar:hover{color:var(--coral)}
+
+/* Contador + lista */
+.resultado{margin:0;padding:.75rem 1.2rem;font-weight:800;font-size:.86rem;color:var(--rosa-escuro);background:var(--cream)}
+.lista{list-style:none;margin:0;padding:0 .8rem 1.2rem;overflow-y:auto;flex:1;overscroll-behavior:contain}
+.pdv-item{background:#fff;border-radius:18px;padding:.9rem 1rem;margin:0 0 .6rem;box-shadow:0 2px 0 rgba(200,24,72,.08);border:2px solid transparent;cursor:pointer;transition:border-color .15s, transform .15s}
+.pdv-item:hover{border-color:var(--rosa-claro);transform:translateY(-1px)}
+.pdv-item.is-active{border-color:var(--rosa);box-shadow:0 8px 20px rgba(250,36,88,.16)}
+.pdv-item__top{display:flex;justify-content:space-between;gap:.6rem;align-items:flex-start}
+.pdv-item__nome{font-family:var(--font-head);font-weight:600;font-size:1.08rem;line-height:1.2;color:var(--ink);margin:0}
+.pdv-item__dist{flex:0 0 auto;font-weight:800;font-size:.78rem;color:var(--rosa);background:rgba(250,36,88,.09);border-radius:999px;padding:.15rem .55rem;white-space:nowrap}
+.chip{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--berry);background:var(--gema);border-radius:999px;padding:.18rem .6rem;margin:.35rem 0 .3rem}
+.chip--sucre{background:var(--rosa);color:#fff}
+.pdv-item__end{margin:0;color:var(--muted);font-weight:600;font-size:.9rem;line-height:1.4}
+.pdv-item__acoes{display:flex;gap:.9rem;margin-top:.5rem;align-items:center}
+.pdv-item__rota,.popup__rota{display:inline-flex;align-items:center;gap:.3rem;font-weight:800;font-size:.9rem;color:var(--rosa-escuro)}
+.pdv-item__rota:hover,.popup__rota:hover{color:var(--coral)}
+.pdv-item__aprox{font-size:.75rem;font-weight:700;color:var(--muted)}
+.lista__vazio{text-align:center;color:var(--muted);font-weight:700;padding:2rem 1rem}
+.lista__vazio strong{display:block;color:var(--ink);font-family:var(--font-head);font-size:1.2rem;margin-bottom:.3rem}
+
+/* Marcadores no mapa */
+.pin{width:34px;height:34px;position:relative}
+.pin::before{content:"";position:absolute;left:4px;top:2px;width:26px;height:26px;background:var(--rosa);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 8px rgba(78,14,34,.35);border:2px solid #fff}
+.pin::after{content:"";position:absolute;left:12px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--gema)}
+.pin--sucre::before{background:var(--berry)}
+.pin--sucre::after{background:var(--rosa)}
+.pin--ativo::before{background:var(--berry);transform:rotate(-45deg) scale(1.18)}
+.pin--eu{width:22px;height:22px;border-radius:50%;background:#1e88e5;border:3px solid #fff;box-shadow:0 0 0 6px rgba(30,136,229,.25)}
+.cluster{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--rosa);color:#fff;font-family:var(--font-head);font-weight:600;font-size:1rem;border:3px solid var(--gema);box-shadow:0 6px 14px rgba(78,14,34,.28)}
+.cluster--md{width:52px;height:52px;font-size:1.1rem}
+.cluster--lg{width:62px;height:62px;font-size:1.2rem}
+.leaflet-container{font-family:var(--font-body)}
+.leaflet-popup-content-wrapper{border-radius:18px;box-shadow:0 14px 30px rgba(78,14,34,.22);padding:.2rem}
+.leaflet-popup-content{margin:.8rem .95rem;line-height:1.4;min-width:200px}
+.leaflet-popup-tip{box-shadow:none}
+.popup__nome{font-family:var(--font-head);font-weight:600;font-size:1.1rem;color:var(--ink);margin:0 0 .2rem}
+.popup__end{margin:.3rem 0 .5rem;color:var(--muted);font-weight:600;font-size:.88rem}
+.popup__rota{background:var(--rosa);color:#fff!important;border-radius:999px;padding:.45rem .9rem;font-size:.86rem}
+.popup__rota:hover{background:var(--rosa-escuro)}
+.leaflet-control-zoom a{color:var(--rosa-escuro);font-weight:800}
+.leaflet-control-attribution{font-size:.65rem;opacity:.8}
+.map-toggle{display:none}
+
+/* Nota de rodapé da página */
+.pdv__nota{background:var(--menta);padding:clamp(2.2rem,5vw,3.5rem) 0;text-align:center}
+.pdv__nota-inner p{color:#2f5f52;font-weight:700;max-width:52ch;margin:0 auto 1.2rem}
+.pdv__nota-acoes{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.pdv__disclaimer{font-size:.82rem;font-weight:600;opacity:.8;margin-top:1.4rem!important}
+
+/* Responsivo */
+@media (max-width:900px){
+  .pdv__hero-inner{gap:1rem}
+  .pdv__mascote{display:none}
+  .locator{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto;min-height:0}
+  .locator__panel{border-right:0;order:2;overflow:visible}
+  .locator__map{order:1;height:52vh;min-height:320px}
+  .lista{overflow:visible;max-height:none}
+  .filtros{position:sticky;top:86px;z-index:20}
+  .map-toggle{display:none}
+}
+@media (max-width:560px){
+  .filtros__linha{flex-direction:column}
+  .filtros__acoes{flex-direction:column;align-items:stretch}
+  .btn-geo{justify-content:center}
+  .btn-limpar{text-align:center}
+  .locator__map{height:46vh}
+  .pdv__nota-acoes{flex-direction:column}
+}
