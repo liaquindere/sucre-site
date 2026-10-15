@@ -79,7 +79,7 @@
     return `<p class="popup__nome">${esc(p.nome)}</p>
       <span class="chip${p.tipo === 'Loja Sucré' ? ' chip--sucre' : ''}">${esc(p.tipo)}</span>
       <p class="popup__end">${esc(enderecoCompleto(p))}${p.prec !== 'endereco' ? '<br><small>Localização aproximada no mapa</small>' : ''}</p>
-      <a class="popup__rota" href="${linkRota(p)}" target="_blank" rel="noopener">Como chegar ↗</a>`;
+      <a class="popup__rota" data-id="${p.id}" href="${linkRota(p)}" target="_blank" rel="noopener">Como chegar ↗</a>`;
   }
 
   // ---------- filtros ----------
@@ -165,8 +165,27 @@
     mapa.fitBounds(b, { padding: [40, 40], maxZoom: lista.length === 1 ? 16 : 13 });
   }
 
+  // ---------- medição (dataLayer via window.track, definido em tracking.js) ----------
+  const track = (ev, params) => { if (typeof window.track === 'function') window.track(ev, params); };
+  const dadosPonto = (p) => ({ pdv_id: p.id, pdv_nome: p.nome, pdv_rede: p.rede || '', pdv_tipo: p.tipo, cidade: p.cidade, uf: p.uf });
+  let origemProxima = 'url';      // primeira chamada depois de lerEstado() = "url"; depois, "usuario"
+  let ultimaLista = [];
+  let ultimaBuscaEnviada = null;
+  let tBusca;
+  function termoBusca() {
+    const termo = norm(el.busca.value).slice(0, 80);
+    return (/@/.test(termo) || /\d{7,}/.test(termo)) ? '[removido]' : termo; // nada de e-mail ou telefone no GA
+  }
+  function emitirFiltro() {
+    const busca = termoBusca();
+    ultimaBuscaEnviada = busca;
+    track('pdv_filtro', { uf: el.uf.value, cidade: el.cidade.value, tipo: el.tipo.value, busca, resultados: ultimaLista.length, origem: origemProxima });
+    origemProxima = 'usuario';
+  }
+
   function atualizar(opts = {}) {
     const lista = filtrar();
+    ultimaLista = lista;
     const total = pontos.length;
     el.resultado.textContent = lista.length === total
       ? `${total} pontos de venda em todo o Brasil`
@@ -175,12 +194,20 @@
     renderMapa(lista);
     if (opts.enquadrar !== false) enquadrar(lista);
     salvarEstado();
+    if (opts.fonte === 'busca') {
+      // digitação: só envia 800 ms depois da última tecla e só se o termo mudou
+      clearTimeout(tBusca);
+      tBusca = setTimeout(() => { if (termoBusca() !== ultimaBuscaEnviada) emitirFiltro(); }, 800);
+    } else {
+      emitirFiltro();
+    }
   }
 
   function selecionar(id, opts = {}) {
     ativo = id;
     const p = pontos.find((x) => x.id === id);
     if (!p) return;
+    track('pdv_selecionar', dadosPonto(p));
     el.lista.querySelectorAll('.pdv-item').forEach((li) => li.classList.toggle('is-active', li.dataset.id === id));
     Object.entries(marcadores).forEach(([k, m]) => m.setIcon(iconePin(pontos.find((x) => x.id === k), k === id)));
     const m = marcadores[id];
@@ -204,9 +231,11 @@
       if (meuMarcador) mapa.removeLayer(meuMarcador);
       meuMarcador = L.marker(minhaPos, { icon: L.divIcon({ className: '', html: '<div class="pin--eu"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }), title: 'Você está aqui', zIndexOffset: 1000 }).addTo(mapa);
       el.geo.classList.remove('is-busy'); el.geo.innerHTML = '📍 Perto de mim';
+      track('pdv_geo', { resultado: 'ok' });
       atualizar();
     }, () => {
       el.geo.classList.remove('is-busy'); el.geo.textContent = 'Perto de mim';
+      track('pdv_geo', { resultado: 'negado' });
       alert('Não conseguimos acessar sua localização. Você pode buscar pela cidade.');
     }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
   }
@@ -219,7 +248,7 @@
     if (el.tipo.value) q.set('tipo', el.tipo.value);
     if (el.busca.value) q.set('q', el.busca.value);
     const h = q.toString();
-    history.replaceState(null, '', h ? `#${h}` : location.pathname);
+    history.replaceState(null, '', location.pathname + location.search + (h ? `#${h}` : ''));
   }
   function lerEstado() {
     const q = new URLSearchParams(location.hash.slice(1));
@@ -233,10 +262,11 @@
   el.uf.addEventListener('change', () => { montarCidades(); minhaPos = null; atualizar(); });
   el.cidade.addEventListener('change', () => atualizar());
   el.tipo.addEventListener('change', () => atualizar());
-  let t; el.busca.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => atualizar(), 220); });
+  let t; el.busca.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => atualizar({ fonte: 'busca' }), 220); });
   $('filtros').addEventListener('submit', (e) => { e.preventDefault(); atualizar(); });
   el.geo.addEventListener('click', pertoDeMim);
   el.limpar.addEventListener('click', () => {
+    track('pdv_limpar');
     el.busca.value = ''; el.uf.value = ''; el.tipo.value = ''; montarCidades(); minhaPos = null; ativo = null;
     if (meuMarcador) { mapa.removeLayer(meuMarcador); meuMarcador = null; }
     el.geo.textContent = 'Perto de mim';
@@ -245,6 +275,24 @@
   el.lista.addEventListener('click', (e) => {
     if (e.target.closest('a')) return;
     const li = e.target.closest('.pdv-item'); if (li) selecionar(li.dataset.id);
+  });
+  // "Como chegar": delegação na lista e no mapa (o popup do Leaflet é criado dinamicamente). Sem preventDefault: o link segue abrindo.
+  el.lista.addEventListener('click', (e) => {
+    const a = e.target.closest('a.pdv-item__rota'); if (!a) return;
+    const li = a.closest('.pdv-item'); const p = li && pontos.find((x) => x.id === li.dataset.id);
+    if (p) track('btnclick_rota', dadosPonto(p));
+  });
+  document.getElementById('mapa').addEventListener('click', (e) => {
+    const a = e.target.closest('a.popup__rota'); if (!a) return;
+    const p = pontos.find((x) => x.id === a.dataset.id);
+    if (p) track('btnclick_rota', dadosPonto(p));
+  });
+  const mapToggle = document.getElementById('map-toggle');
+  if (mapToggle) mapToggle.addEventListener('click', () => {
+    const lista = mapToggle.getAttribute('aria-expanded') !== 'true';
+    mapToggle.setAttribute('aria-expanded', lista ? 'true' : 'false');
+    mapToggle.textContent = lista ? 'Ver mapa' : 'Ver lista';
+    track('pdv_toggle', { modo: lista ? 'lista' : 'mapa' });
   });
   el.lista.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;

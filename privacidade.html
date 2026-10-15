@@ -2,19 +2,59 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    (function () {
+      var salvo = null;
+      try { salvo = JSON.parse(localStorage.getItem('sucre_consent') || 'null'); } catch (e) {}
+      var ok = salvo && salvo.analytics === true;
+      gtag('consent', 'default', {
+        ad_storage: ok ? 'granted' : 'denied',
+        ad_user_data: ok ? 'granted' : 'denied',
+        ad_personalization: ok ? 'granted' : 'denied',
+        analytics_storage: ok ? 'granted' : 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
+    })();
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-T6TP9B7V');</script>
+  <!-- End Google Tag Manager -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Política de Privacidade — Sucré</title>
   <meta name="description" content="Política de privacidade do site da Sucré Alimentos: quais dados tratamos, com que finalidade e como exercer seus direitos previstos na LGPD." />
-  <link rel="canonical" href="https://www.sucre.com.br/privacidade" />
+  <link rel="canonical" href="https://sucre.com.br/privacidade" />
+  <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net;
+  connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.facebook.com https://connect.facebook.net https://stats.g.doubleclick.net;
+  img-src 'self' data: https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://*.facebook.com;
+  frame-src https://www.googletagmanager.com https://www.facebook.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src https://fonts.gstatic.com;
+  base-uri 'self';
+  form-action 'self' https://wa.me
+" />
   <meta name="robots" content="noindex, follow" />
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=15" />
+  <link rel="stylesheet" href="styles.css?v=16" />
   <style>.legal{max-width:760px;margin:0 auto;padding:3rem 1.5rem 4rem}.legal h1{font-size:clamp(1.9rem,4vw,2.6rem)}.legal h2{font-size:1.25rem;margin-top:2rem}.legal p,.legal li{color:var(--muted);font-weight:600}.legal strong{color:var(--ink)}</style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T6TP9B7V"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <header class="site-header" id="topo">
     <div class="container header__inner">
       <a class="brand" href="index.html" aria-label="Sucré, página inicial">
@@ -24,9 +64,9 @@
   </header>
 
   <main class="legal">
-    <p class="eyebrow">LGPD · atualizada em 30/07/2026</p>
+    <p class="eyebrow">LGPD · atualizada em 15/10/2026</p>
     <h1>Política de Privacidade</h1>
-    <p>Esta política explica como a <strong>Sucré Indústria e Comércio de Alimentos LTDA</strong> (CNPJ 09.088.425/0001-79) trata dados pessoais no site <strong>www.sucre.com.br</strong>, em conformidade com a Lei nº 13.709/2018 (LGPD).</p>
+    <p>Esta política explica como a <strong>Sucré Indústria e Comércio de Alimentos LTDA</strong> (CNPJ 09.088.425/0001-79) trata dados pessoais no site <strong>sucre.com.br</strong>, em conformidade com a Lei nº 13.709/2018 (LGPD).</p>
 
     <h2>1. Quais dados coletamos</h2>
     <p>Este site é <strong>informativo e não possui formulários de cadastro</strong>. Não coletamos dados pessoais diretamente nestas páginas. Os cenários de tratamento são:</p>
@@ -37,7 +77,7 @@
     </ul>
 
     <h2>2. Cookies e medição de audiência</h2>
-    <p>Hoje este site <strong>não utiliza cookies próprios de rastreamento</strong>. Se passarmos a usar ferramentas de medição ou mídia (como Google Analytics ou pixels de publicidade), esta política será atualizada e você verá um aviso de consentimento antes de qualquer coleta.</p>
+    <p>Usamos o <strong>Google Tag Manager</strong>, o <strong>Google Analytics 4</strong> e o <strong>Pixel da Meta</strong> pra medir audiência e desempenho das nossas campanhas. Esses serviços só gravam cookies depois que você aceita no aviso de consentimento; se escolher "Só o essencial", o site funciona do mesmo jeito e nada de mídia é gravado. Você pode mudar a escolha a qualquer momento em "Preferências de cookies", no rodapé. Os dados ficam com a Sucré e com os provedores citados, pelo prazo padrão de cada ferramenta (14 meses no Google Analytics).</p>
 
     <h2>3. Com quem compartilhamos</h2>
     <p>Não vendemos nem alugamos dados pessoais. Compartilhamentos se limitam a fornecedores essenciais de tecnologia (hospedagem e plataformas de mensagem citadas acima), sempre no limite da finalidade de atendimento.</p>
@@ -54,9 +94,10 @@
   <footer class="site-footer">
     <div class="container footer__legal">
       <span>© <span id="ano"></span> Sucré. Todos os direitos reservados.</span>
-      <span>CNPJ 09.088.425/0001-79 · Fortaleza, CE</span>
+      <span>CNPJ 09.088.425/0001-79 · Fortaleza, CE · <a href="#" id="abrir-consentimento">Preferências de cookies</a></span>
     </div>
   </footer>
+  <script src="tracking.js?v=1"></script>
   <script>document.getElementById('ano').textContent = new Date().getFullYear();</script>
 </body>
 </html>

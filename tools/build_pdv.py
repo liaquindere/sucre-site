@@ -321,7 +321,7 @@ def main():
         saida.append({
             "id": f"p{len(saida)+1}",
             "nome": p["nome"],
-            "rede": p["rede"] if norm(p["rede"]) != norm(p["nome"]) else "",
+            "rede": p["rede"] or p["nome"],  # sempre preenchida: quando não há rede, a própria loja é a rede
             "tipo": p["tipo"],
             "endereco": endereco,
             "bairro": p["bairro"],
